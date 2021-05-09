@@ -3537,13 +3537,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "logOut": () => (/* binding */ logOut)
 /* harmony export */ });
 function isLoggedIn() {
-  return localStorage.getItem("IsLoggedIn") == true;
+  return localStorage.getItem("isLoggedIn") == 'true';
 }
 function logIn() {
-  return localStorage.setItem("isLoggedIn", true);
+  localStorage.setItem("isLoggedIn", true);
 }
 function logOut() {
-  return localStorage.setItem("isLoggedIn", false);
+  localStorage.setItem("isLoggedIn", false);
 }
 
 /***/ }),
