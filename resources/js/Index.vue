@@ -16,7 +16,7 @@
         </li>
 
         <li class="nav-item" v-if="!isLoggedIn">
-          <router-link :to="{name: 'login'}" class="nav-link">Sign-in</router-link>
+          <router-link :to="{name: 'login'}" class="nav-link">Login</router-link>
         </li>
 
         <li class="nav-item" v-if="isLoggedIn">
@@ -54,7 +54,7 @@ export default {
   methods: {
     async logout() {
       try {
-        axios.post("/logout");
+        axios.post("/logout");// Created by Laravel
         this.$store.dispatch("logout");
       } catch (error) {
         this.$store.dispatch("logout");

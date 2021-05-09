@@ -23,6 +23,17 @@ const routes = [{
         path: "/shoppingcart",
         component: Shoppingcart,
         name: "shoppingcart"
+    },
+    {
+        path: "/auth/login",
+        // Same as import and then put here:
+        component: require("./auth/Login").default,
+        name: "login"
+    },
+    {
+        path: "/auth/register",
+        component: require("./auth/Register").default,
+        name: "register"
     }
 
 ];

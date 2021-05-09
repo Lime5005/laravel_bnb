@@ -1,3 +1,5 @@
+import { isLoggedIn, logOut } from "./shared/utils/auth"
+
 export default {
     state: {
         lastSearch: {
@@ -6,7 +8,9 @@ export default {
         },
         shoppingcart: {
             items: [] // bookable, price, dates, these are defined in `addToShoppingcart()` method in `Bookable.vue`
-        }
+        },
+        isLoggedIn: false,
+        user: {}
     },
     mutations: {
         setLastSearch(state, payload) {
@@ -20,6 +24,12 @@ export default {
         },
         setShoppingcart(state, payload) {
             state.shoppingcart = payload // For reading the state
+        },
+        setUser(state, payload) {
+            state.user = payload
+        },
+        setLoggedIn(state, payload) {
+            state.isLoggedIn = payload
         }
     },
     actions: {
@@ -37,6 +47,8 @@ export default {
             if (shoppingcart) {
                 context.commit('setShoppingcart', JSON.parse(shoppingcart))
             }
+
+            context.commit('setLoggedIn', isLoggedIn())
         },
         addToShoppingcart({ commit, state }, payload) {
             // { commit, state } = context.commit, context.state
@@ -51,6 +63,23 @@ export default {
         clearShoppingcart({ commit, state }, payload) {
             commit('setShoppingcart', { items: [] })
             localStorage.setItem('shoppingcart', JSON.stringify(state.shoppingcart))
+        },
+        async loadUser({ commit, dispatch }) {
+            if (isLoggedIn()) {
+                try {
+                    const user = (await axios.get('/user')).data
+                        // console.log(user);
+                    commit('setUser', user)
+                    commit('setLoggedIn', true)
+                } catch (error) {
+                    dispatch('logout')
+                }
+            }
+        },
+        logout({ commit }) {
+            commit('setUser', {})
+            commit('setLoggedIn', false)
+            logOut()
         }
     },
     getters: {

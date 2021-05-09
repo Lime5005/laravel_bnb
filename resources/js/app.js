@@ -12,7 +12,7 @@ import ValidationErrors from "./shared/components/ValidationErrors";
 import storeDefinition from "./store";
 
 import Vue from 'vue/dist/vue'
-import axios from "axios";
+// import axios from "axios";
 // window.Vue = require("vue");
 
 Vue.use(Vuex);
@@ -29,18 +29,18 @@ Vue.component("validation-errors", ValidationErrors);
 
 const store = new Vuex.Store(storeDefinition);
 
-// window.axios.interceptors.response.use(
-//     response => {
-//         return response;
-//     },
-//     error => {
-//         if (401 === error.response.status) {
-//             store.dispatch("logout");
-//         }
+window.axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    error => {
+        if (401 === error.response.status) {
+            store.dispatch("logout");
+        }
 
-//         return Promise.reject(error);
-//     }
-// );
+        return Promise.reject(error);
+    }
+);
 
 const app = new Vue({
     el: "#app",
@@ -51,13 +51,13 @@ const app = new Vue({
     },
     async beforeCreate() {
         this.$store.dispatch("loadStoredState");
-
-        await axios.get('/sanctum/csrf-cookie')
-        await axios.post('login', {
-            email: 'hyatt.cedrick@example.net',
-            password: 'password'
-        })
-        await axios.get('/user')
-            // this.$store.dispatch("loadUser");
+        this.$store.dispatch("loadUser");
+        // Below is to test if the sanctum works for login and load user data
+        // await axios.get('/sanctum/csrf-cookie')
+        // await axios.post('login', {
+        //     email: 'hyatt.cedrick@example.net',
+        //     password: 'password'
+        // })
+        // await axios.get('/user')
     },
 });
