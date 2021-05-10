@@ -54,8 +54,9 @@ export default {
   methods: {
     async logout() {
       try {
-        axios.post("/logout");// Created by Laravel
+        await axios.post("/logout");// Created by Laravel
         this.$store.dispatch("logout");
+        this.$router.push({name: 'home'})
       } catch (error) {
         this.$store.dispatch("logout");
       }
